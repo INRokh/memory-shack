@@ -6,7 +6,7 @@ This is an application that extracts text from images and uses it as a search in
 
 ### Deployment to Google Cloud
 
-1. Create new project in GCP.
+1. Create a new project in GCP.
 1. Enable the Cloud Functions, Cloud Pub/Sub, Cloud Storage, Cloud Translation, and Cloud Vision APIs.
 1. Install Google Cloud SDK (on Mac OSX):
 
@@ -64,6 +64,20 @@ Replace YOUR_RESULT_TOPIC_NAME with a Pub/Sub topic name to be used for saving r
 
 Replace YOUR_TEXT_BUCKET_NAME with a bucket name used for saving text results.
 
+### Deploying the functions
+
+1. To deploy the image processing function with a Cloud Storage trigger, run the following command in the app directory:
+
+```shell
+gcloud functions deploy ocr-extract --runtime nodejs8 --trigger-bucket YOUR_IMAGE_BUCKET_NAME --entry-point processImage
+```
+
+2. To deploy the function that saves results to Cloud Storage with a Cloud Pub/Sub trigger, run the following command in the app directory:
+
+```shell
+gcloud functions deploy ocr-save --runtime nodejs8 --trigger-topic YOUR_RESULT_TOPIC_NAME --entry-point saveResult
+```
+
 ### Uploading an image
 
 1. Upload an image to your image Cloud Storage bucket:
@@ -80,7 +94,3 @@ gsutil cp PATH_TO_IMAGE gs://YOUR_IMAGE_BUCKET_NAME
 ```shell
 gcloud functions logs read --limit 100
 ```
-
-
-
-

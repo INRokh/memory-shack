@@ -11,9 +11,6 @@ const pubsub = new PubSub();
 const {Storage} = require('@google-cloud/storage');
 const storage = new Storage();
 
-// const gcs = require('@google-cloud/storage');
-// const storage = new gcs.Storage();
-
 // Get a reference to the Cloud Vision API component
 const Vision = require('@google-cloud/vision');
 const vision = new Vision.ImageAnnotatorClient();
@@ -39,6 +36,7 @@ const publishResult = async (topicName, data) => {
  * @param {string} filename Cloud Storage file name.
  * @returns {Promise}
  */
+
 const detectText = async (bucketName, filename) => {
   console.log(`Looking for text in image ${filename}`);
   const [textDetections] = await vision.textDetection(
@@ -73,6 +71,7 @@ const renameImageForSave = (filename) => {
  *
  * @param {object} event A Google Cloud Storage File object.
  */
+
 exports.processImage = async event => {
   const {bucket, name} = event;
 
@@ -101,6 +100,7 @@ exports.processImage = async event => {
  * @param {string} {messageObject}.data The "data" property of the Cloud Pub/Sub
  * Message. This property will be a base64-encoded string that you must decode.
  */
+
 exports.saveResult = async event => {
   const pubsubData = event.data;
   const jsonStr = Buffer.from(pubsubData, 'base64').toString();
