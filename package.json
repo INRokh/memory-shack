@@ -19,6 +19,8 @@
     "@google-cloud/storage": "^4.0.0",
     "@google-cloud/translate": "^5.0.0",
     "@google-cloud/vision": "^1.0.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.8.0",
     "nconf": "^0.10.0"
   },
   "devDependencies": {
@@ -29,9 +31,8 @@
     "requiresKeyFile": true,
     "requiresProjectId": true,
     "requiredEnvVars": [
-      "FUNCTIONS_BUCKET",
-      "OUTPUT_BUCKET",
-      "TRANSLATE_TOPIC",
+      "INPUT_BUCKET",
+      "RESULT_BUCKET",
       "RESULT_TOPIC"
     ]
   }

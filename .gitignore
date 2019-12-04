@@ -5,3 +5,4 @@ npm-debug.log
 coverage/
 
 config.json
+package-lock.json

@@ -128,3 +128,49 @@ exports.saveResult = async event => {
   await file.save(text);
   console.log(`File saved.`);
 };
+
+const admin = require('firebase-admin');
+
+// Follow instructions to set up admin credentials:
+// https://firebase.google.com/docs/functions/local-emulator#set_up_admin_credentials_optional
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  // TODO: ADD YOUR DATABASE URL
+  //databaseURL: undefined
+});
+
+const express = require('express');
+const app = express();
+
+// Express middleware that validates Firebase ID Tokens passed in the Authorization HTTP header.
+// The Firebase ID token needs to be passed as a Bearer token in the Authorization HTTP header like this:
+// `Authorization: Bearer <Firebase ID Token>`.
+// when decoded successfully, the ID Token content will be added as `req.user`.
+const authenticate = async (req, res, next) => {
+  if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
+    res.status(403).send('Unauthorized');
+    console.log('no bearer')
+    return;
+  }
+  console.log('got bearer')
+  const idToken = req.headers.authorization.split('Bearer ')[1];
+  try {
+    const decodedIdToken = await admin.auth().verifyIdToken(idToken);
+    req.user = decodedIdToken;
+    next();
+    return;
+  } catch(e) {
+    res.status(403).send('Unauthorized');
+    console.log('wrong bearer')
+    console.log(e)
+    return;
+  }
+};
+
+app.use(authenticate);
+
+app.get('/api/images', (req, res, next) => {
+  res.send('Hello ' + req.user.uid);
+});
+
+exports.app = app;
