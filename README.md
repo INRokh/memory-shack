@@ -44,7 +44,7 @@ Application consists of the following components:
 
 Frontend allows to upload images and search images by text. Image recognition backend extracts text from images and stores it in a database. Image resize backend creates copies of an image with different sizes. 
 
-The data will be stored in Firestore and queried using Algolia. The authentication is implemented using Firebase Authentication. Example apps: expenses.
+The data will be stored in Firestore and queried using [Algolia](https://cloud.google.com/firestore/docs/solutions/search). The authentication is implemented using Firebase Authentication. Example apps: [expenses](https://cloud.google.com/blog/products/application-development/serverless-in-action-building-a-simple-backend-with-cloud-firestore-and-cloud-functions).
 
 ## Detailed Design
 
